@@ -18,7 +18,7 @@ public class EnemyMovement : MonoBehaviour
     protected Animator animator;
     protected Collider attackcol;
     
-    protected IsAttackRange RangeScript;
+   
 
     [SerializeField] protected AnimationClip AttackMotion; //アタックモーションの指定
     [SerializeField] protected AnimationClip SpecialAttackMotion; //スペシャルアタックモーションの指定
@@ -56,9 +56,9 @@ public class EnemyMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         GameObject body = Getbody();          
         attackcol = body.GetComponent<Collider>();
-        RangeScript = body.GetComponent<IsAttackRange>();
-        
-        attackcol.enabled = false;
+
+        OffAttackCollider();
+       
 
 
         Player = GameObject.FindGameObjectWithTag("Player"); //プレイヤーゲームオブジェクトを取得
@@ -279,7 +279,7 @@ public class EnemyMovement : MonoBehaviour
             }
             LookRotate(turnSpeed);
             IsNotice = true;
-            attackcol.enabled = false;
+            OffAttackCollider();
             await InvincibleTime(400); //無敵時間終了までダメージを受けない
         }
     }
@@ -293,9 +293,10 @@ public class EnemyMovement : MonoBehaviour
         Navstart();
             
     }
-    void FollowTarget()
+    protected void FollowTarget()
     {
-        if (Target != null) {
+        if (Target != null)
+        {
             nav.destination = Target.transform.position;
             Navstart();
         }
@@ -331,15 +332,14 @@ public class EnemyMovement : MonoBehaviour
         return EnemyStatus.HP;
     }
 
-    protected  void OffAttackCollider()  //AnimationEventから呼び出す
+    protected virtual void OffAttackCollider()  //AnimationEventから呼び出す
     {
       
         attackcol.enabled = false;
-      
        
     }
 
-    protected void OnAttackCollider()  //AnimationEventから呼び出す
+    protected virtual void OnAttackCollider()  //AnimationEventから呼び出す
     {
         attackcol.enabled = true;
     }

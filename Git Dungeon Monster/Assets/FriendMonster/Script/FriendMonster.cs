@@ -16,7 +16,7 @@ public class FriendMonster : EnemyMovement
         animator = GetComponent<Animator>();
         GameObject body = Getbody();
         attackcol = body.GetComponent<Collider>();
-        RangeScript = body.GetComponent<IsAttackRange>();
+     
 
         attackcol.enabled = false;
 
@@ -155,12 +155,7 @@ protected override void Update()
 
     }
 
-    void FollowTarget()
-    {
-        nav.destination = Target.transform.position;
-        Navstart();
-       
-    }
+  
 
     
 }
